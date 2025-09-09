@@ -7,7 +7,9 @@ controller:
         prometheus.io/scrape: true
   env:
     - name: ARGOCD_K8S_CLIENT_QPS #required for Crossplane too many CRDs https://github.com/argoproj/argo-cd/pull/448
-      value: '300'
+      value: "300"
+    - name: ARGOCD_EXEC_TIMEOUT
+      value: "3m"
 
 repoServer:
   autoscaling:
@@ -15,11 +17,11 @@ repoServer:
     minReplicas: 1
   resources: # Adjust based on your specific use case (required for HPA)
     requests:
-      cpu: '100m'
-      memory: '256Mi'
+      cpu: "100m"
+      memory: "256Mi"
     limits:
-      cpu: '200m'
-      memory: '512Mi'
+      cpu: "200m"
+      memory: "512Mi"
   metrics:
     enabled: true
     service:
@@ -40,11 +42,11 @@ server:
     minReplicas: 1
   resources: # Adjust based on your specific use case (required for HPA)
     requests:
-      cpu: '100m'
-      memory: '256Mi'
+      cpu: "100m"
+      memory: "256Mi"
     limits:
-      cpu: '200m'
-      memory: '512Mi'
+      cpu: "200m"
+      memory: "512Mi"
   metrics:
     enabled: true
     service:
@@ -63,9 +65,9 @@ configs:
       name: aws-public-ecr
       type: helm
       url: public.ecr.aws
-      enableOCI: 'true'
+      enableOCI: "true"
   cm:
-    application.resourceTrackingMethod: 'annotation' #use annotation for tracking required for Crossplane
+    application.resourceTrackingMethod: "annotation" #use annotation for tracking required for Crossplane
     resource.exclusions: |
       - kinds:
         - ProviderConfigUsage
@@ -188,7 +190,6 @@ configs:
           end
 
           return health_status
-
 
 # -- Array of extra K8s manifests to deploy
 ## Note: Supports use of custom Helm templates
